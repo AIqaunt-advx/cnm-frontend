@@ -61,6 +61,7 @@ const AnimatedProgressBar = () => {
 
 interface TradingItem {
   id: number
+  itemID: number
   marketHashName: string
   maxDiff: number
   expectedSales: number
@@ -77,6 +78,7 @@ interface TradingItem {
 const mockData: TradingItem[] = [
   {
     id: 1,
+    itemID: 22779,
     marketHashName: "★ Butterfly Knife",
     maxDiff: 1000,
     expectedSales: 533,
@@ -91,6 +93,7 @@ const mockData: TradingItem[] = [
   },
   {
     id: 2,
+    itemID: 87809662,
     marketHashName: "AK-47 | Neon Revolution (Factory New)",
     maxDiff: 25.80,
     expectedSales: 92,
@@ -105,6 +108,7 @@ const mockData: TradingItem[] = [
   },
   {
     id: 3,
+    itemID: 553480507,
     marketHashName: "AWP | Neo-Noir (Minimal Wear)",
     maxDiff: 45.60,
     expectedSales: 88,
@@ -119,6 +123,7 @@ const mockData: TradingItem[] = [
   },
   {
     id: 4,
+    itemID: 808803043731832832,
     marketHashName: "M4A4 | Cyber Security (Field-Tested)",
     maxDiff: 18.30,
     expectedSales: 76,
@@ -133,7 +138,8 @@ const mockData: TradingItem[] = [
   },
   {
     id: 5,
-    marketHashName: "Karambit | Gamma Doppler (Factory New)",
+    itemID: 5534979,
+    marketHashName: "★ Karambit | Gamma Doppler (Factory New)",
     maxDiff: 420.50,
     expectedSales: 65,
     recommendation: 2,
@@ -147,6 +153,7 @@ const mockData: TradingItem[] = [
   },
   {
     id: 6,
+    itemID: 553491625,
     marketHashName: "Glock-18 | Vogue (Minimal Wear)",
     maxDiff: 32.20,
     expectedSales: 84,
