@@ -1,0 +1,467 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Base body styles with smooth transitions */
+body {
+  font-family: var(--font-rajdhani);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark theme (default) */
+body {
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+  color: #e0e6ed;
+}
+
+/* Light theme */
+.light body {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  color: #1e293b;
+}
+
+/* Cyber color variables for dark theme */
+:root {
+  --cyber-blue: #00d4ff;
+  --cyber-pink: #ff0080;
+  --cyber-green: #00ff88;
+  --cyber-yellow: #ffff00;
+  --cyber-purple: #bf00ff;
+  --cyber-dark: #0a0a0f;
+  --cyber-darker: #050508;
+  --cyber-gray: #1a1a2e;
+}
+
+/* Light theme color overrides */
+.light {
+  --cyber-blue: #1e40af;
+  --cyber-pink: #be185d;
+  --cyber-green: #059669;
+  --cyber-yellow: #d97706;
+  --cyber-purple: #7c3aed;
+  --cyber-dark: #f1f5f9;
+  --cyber-darker: #e2e8f0;
+  --cyber-gray: #cbd5e1;
+}
+
+/* Dynamic color classes */
+.bg-cyber-dark {
+  background-color: var(--cyber-dark);
+  transition: background-color 0.5s ease;
+}
+
+.bg-cyber-darker {
+  background-color: var(--cyber-darker);
+  transition: background-color 0.5s ease;
+}
+
+.bg-cyber-gray {
+  background-color: var(--cyber-gray);
+  transition: background-color 0.5s ease;
+}
+
+.text-cyber-blue {
+  color: var(--cyber-blue);
+  transition: color 0.5s ease;
+}
+
+.text-cyber-pink {
+  color: var(--cyber-pink);
+  transition: color 0.5s ease;
+}
+
+.text-cyber-green {
+  color: var(--cyber-green);
+  transition: color 0.5s ease;
+}
+
+.text-neon-yellow {
+  color: var(--cyber-yellow);
+  transition: color 0.5s ease;
+}
+
+.border-cyber-blue {
+  border-color: var(--cyber-blue);
+  transition: border-color 0.5s ease;
+}
+
+.border-cyber-pink {
+  border-color: var(--cyber-pink);
+  transition: border-color 0.5s ease;
+}
+
+.border-cyber-green {
+  border-color: var(--cyber-green);
+  transition: border-color 0.5s ease;
+}
+
+.border-cyber-gray {
+  border-color: var(--cyber-gray);
+  transition: border-color 0.5s ease;
+}
+
+/* Background with opacity variants */
+.bg-cyber-blue\/10 {
+  background-color: color-mix(in srgb, var(--cyber-blue) 10%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-cyber-blue\/20 {
+  background-color: color-mix(in srgb, var(--cyber-blue) 20%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-cyber-pink\/20 {
+  background-color: color-mix(in srgb, var(--cyber-pink) 20%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-cyber-green\/20 {
+  background-color: color-mix(in srgb, var(--cyber-green) 20%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-neon-yellow\/20 {
+  background-color: color-mix(in srgb, var(--cyber-yellow) 20%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+/* Border with opacity variants */
+.border-cyber-blue\/30 {
+  border-color: color-mix(in srgb, var(--cyber-blue) 30%, transparent);
+  transition: border-color 0.5s ease;
+}
+
+.border-cyber-pink\/30 {
+  border-color: color-mix(in srgb, var(--cyber-pink) 30%, transparent);
+  transition: border-color 0.5s ease;
+}
+
+.border-cyber-green\/30 {
+  border-color: color-mix(in srgb, var(--cyber-green) 30%, transparent);
+  transition: border-color 0.5s ease;
+}
+
+.border-cyber-blue\/50 {
+  border-color: color-mix(in srgb, var(--cyber-blue) 50%, transparent);
+  transition: border-color 0.5s ease;
+}
+
+/* Custom scrollbar with theme support */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cyber-gray);
+  transition: background 0.5s ease;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-pink));
+  border-radius: 4px;
+  transition: background 0.5s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, var(--cyber-pink), var(--cyber-blue));
+}
+
+/* Neon glow effects with theme support */
+.neon-blue {
+  text-shadow: 
+    0 0 5px var(--cyber-blue), 
+    0 0 10px var(--cyber-blue), 
+    0 0 15px var(--cyber-blue), 
+    0 0 20px var(--cyber-blue);
+  transition: text-shadow 0.5s ease;
+}
+
+.neon-pink {
+  text-shadow: 
+    0 0 5px var(--cyber-pink), 
+    0 0 10px var(--cyber-pink), 
+    0 0 15px var(--cyber-pink), 
+    0 0 20px var(--cyber-pink);
+  transition: text-shadow 0.5s ease;
+}
+
+.neon-green {
+  text-shadow: 
+    0 0 5px var(--cyber-green), 
+    0 0 10px var(--cyber-green), 
+    0 0 15px var(--cyber-green), 
+    0 0 20px var(--cyber-green);
+  transition: text-shadow 0.5s ease;
+}
+
+/* Light theme: reduce glow intensity */
+.light .neon-blue {
+  text-shadow: 
+    0 0 2px var(--cyber-blue), 
+    0 0 4px var(--cyber-blue);
+}
+
+.light .neon-pink {
+  text-shadow: 
+    0 0 2px var(--cyber-pink), 
+    0 0 4px var(--cyber-pink);
+}
+
+.light .neon-green {
+  text-shadow: 
+    0 0 2px var(--cyber-green), 
+    0 0 4px var(--cyber-green);
+}
+
+/* Cyber grid background with theme support */
+.cyber-grid {
+  background-image: 
+    linear-gradient(color-mix(in srgb, var(--cyber-blue) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cyber-blue) 10%, transparent) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transition: background-image 0.5s ease;
+}
+
+/* Holographic effect with theme support */
+.holographic {
+  background: linear-gradient(45deg, 
+    color-mix(in srgb, var(--cyber-blue) 10%, transparent) 0%,
+    color-mix(in srgb, var(--cyber-pink) 10%, transparent) 25%,
+    color-mix(in srgb, var(--cyber-green) 10%, transparent) 50%,
+    color-mix(in srgb, var(--cyber-pink) 10%, transparent) 75%,
+    color-mix(in srgb, var(--cyber-blue) 10%, transparent) 100%);
+  background-size: 400% 400%;
+  animation: holographic-shift 3s ease-in-out infinite;
+  transition: background 0.5s ease;
+}
+
+@keyframes holographic-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Scan line effect with theme support */
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-blue), transparent);
+  animation: scan-line 3s linear infinite;
+  z-index: 1000;
+  pointer-events: none;
+  transition: background 0.5s ease;
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* Cyber button styles with theme support */
+.cyber-button {
+  position: relative;
+  background: linear-gradient(45deg, 
+    color-mix(in srgb, var(--cyber-blue) 10%, transparent), 
+    color-mix(in srgb, var(--cyber-pink) 10%, transparent));
+  border: 1px solid var(--cyber-blue);
+  color: var(--cyber-blue);
+  font-family: var(--font-orbitron);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.cyber-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.cyber-button:hover::before {
+  left: 100%;
+}
+
+.cyber-button:hover {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--cyber-blue) 50%, transparent);
+  transform: translateY(-2px);
+}
+
+/* Light theme: adjust button hover effects */
+.light .cyber-button:hover {
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--cyber-blue) 30%, transparent);
+}
+
+/* Backdrop blur with theme support */
+.backdrop-blur-cyber {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Shadow effects with theme support */
+.shadow-cyber {
+  box-shadow: 
+    0 0 30px color-mix(in srgb, var(--cyber-blue) 30%, transparent), 
+    inset 0 0 30px color-mix(in srgb, var(--cyber-pink) 10%, transparent);
+  transition: box-shadow 0.5s ease;
+}
+
+.shadow-neon-blue {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--cyber-blue) 50%, transparent);
+  transition: box-shadow 0.5s ease;
+}
+
+/* Light theme: softer shadows */
+.light .shadow-cyber {
+  box-shadow: 
+    0 4px 20px color-mix(in srgb, var(--cyber-blue) 20%, transparent), 
+    inset 0 0 20px color-mix(in srgb, var(--cyber-pink) 5%, transparent);
+}
+
+.light .shadow-neon-blue {
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--cyber-blue) 30%, transparent);
+}
+
+/* Glitch effect */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+
+/* Matrix rain effect */
+@keyframes matrix-rain {
+  0% { transform: translateY(-100vh); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.matrix-char {
+  position: absolute;
+  color: var(--cyber-green);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  animation: matrix-rain 2s linear infinite;
+  pointer-events: none;
+  transition: color 0.5s ease;
+}
+
+/* Floating particles */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.floating-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--cyber-blue);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+  opacity: 0.6;
+  transition: background 0.5s ease;
+}
+
+/* Data table and row styles */
+.data-table {
+  background: color-mix(in srgb, var(--cyber-dark) 90%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cyber-blue) 30%, transparent);
+  backdrop-filter: blur(10px);
+  transition: all 0.5s ease;
+}
+
+.data-row:hover {
+  background: linear-gradient(90deg, 
+    color-mix(in srgb, var(--cyber-blue) 10%, transparent), 
+    color-mix(in srgb, var(--cyber-pink) 10%, transparent));
+  border-left: 3px solid var(--cyber-blue);
+  transition: all 0.3s ease;
+}
+
+/* Card backgrounds with theme support */
+.bg-black\/60 {
+  background-color: color-mix(in srgb, var(--cyber-darker) 60%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-black\/80 {
+  background-color: color-mix(in srgb, var(--cyber-darker) 80%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-black\/90 {
+  background-color: color-mix(in srgb, var(--cyber-darker) 90%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+.bg-black\/95 {
+  background-color: color-mix(in srgb, var(--cyber-darker) 95%, transparent);
+  transition: background-color 0.5s ease;
+}
+
+/* Light theme: invert some backgrounds */
+.light .bg-black\/60 {
+  background-color: color-mix(in srgb, white 60%, transparent);
+}
+
+.light .bg-black\/80 {
+  background-color: color-mix(in srgb, white 80%, transparent);
+}
+
+.light .bg-black\/90 {
+  background-color: color-mix(in srgb, white 90%, transparent);
+}
+
+.light .bg-black\/95 {
+  background-color: color-mix(in srgb, white 95%, transparent);
+}
+
+/* Text color adjustments for light theme */
+.light .text-white {
+  color: #1e293b !important;
+}
+
+.light .text-gray-300 {
+  color: #475569 !important;
+}
+
+.light .text-gray-600 {
+  color: #475569 !important;
+}
+
+/* Theme transition for all elements */
+* {
+  transition-property: color, background-color, border-color, text-shadow, box-shadow;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
