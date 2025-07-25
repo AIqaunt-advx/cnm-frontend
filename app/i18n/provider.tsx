@@ -20,10 +20,18 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true)
-    // Load saved language from localStorage
+    
+    // Check browser language first
+    const browserLang = navigator.language.toLowerCase()
+    const isChineseBrowser = browserLang.includes('zh')
+    
+    // Load saved language from localStorage, or use browser preference
     const savedLanguage = localStorage.getItem('language') as Language
     if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'zh')) {
       setLanguage(savedLanguage)
+    } else if (isChineseBrowser) {
+      setLanguage('zh')
+      localStorage.setItem('language', 'zh')
     }
   }, [])
 
