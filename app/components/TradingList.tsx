@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
+import {
   Card,
   CardBody,
   Tooltip,
@@ -10,6 +10,80 @@ import {
   Button
 } from '@heroui/react'
 import { useI18n } from '../i18n/provider'
+import React from 'react'
+
+function timeAgo(timestamp: number, t: (k: string, v?: any) => string) {
+  const now = Date.now() / 1000
+  const diff = Math.max(0, Math.floor(now - timestamp))
+  if (diff < 60) return diff + t('trading.platformPopover.secondsAgo')
+  if (diff < 3600) return Math.floor(diff / 60) + t('trading.platformPopover.minutesAgo')
+  if (diff < 86400) return Math.floor(diff / 3600) + t('trading.platformPopover.hoursAgo')
+  return Math.floor(diff / 86400) + t('trading.platformPopover.daysAgo')
+}
+
+function TrendLine({ trendList }: { trendList: [string, number, number][] }) {
+  if (!trendList || trendList.length === 0) return null
+  const prices = trendList.map(item => item[1])
+  const min = Math.min(...prices)
+  const max = Math.max(...prices)
+  const points = prices.map((p, i) => {
+    const x = (i / (prices.length - 1 || 1)) * 100
+    const y = 100 - ((p - min) / (max - min || 1)) * 80 - 10 // padding 10
+    return `${x},${y}`
+  }).join(' ')
+  return (
+    <svg width="120" height="40" viewBox="0 0 100 40">
+      <polyline
+        fill="none"
+        stroke="#00ff99"
+        strokeWidth="2"
+        points={points}
+      />
+    </svg>
+  )
+}
+
+const PlatformPopover: React.FC<{ itemID: number }> = ({ itemID }) => {
+  const [loading] = useState(false)
+  const [data, setData] = useState<any[]>([])
+  const { t } = useI18n()
+
+
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`https://sdt-api.ok-skins.com/user/skin/v1/market-comparsion?itemId=${itemID}&platform=YOUPIN&typeDay=1&dateType=3`)
+      const json = await res.json()
+      setData(json?.data?.platformMarket || [])
+    } catch (e) {
+      setData([])
+    }
+  }
+
+  return (
+    <div
+      className="min-w-[320px] p-2"
+      onMouseEnter={fetchData}
+      onTouchStart={fetchData}
+    >
+      {loading && <div className="text-cyber-blue text-center">{t('common.loading')}</div>}
+      {!loading && data.length === 0 && <div className="text-cyber-pink text-center">{t('common.noData')}</div>}
+      {!loading && data.map(platform => (
+        <div key={platform.platform} className="mb-3 last:mb-0 border-b border-cyber-blue/10 pb-2 last:border-b-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="font-bold text-cyber-blue">{platform.platformName}</span>
+            <a href={platform.link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyber-green underline">{t('trading.platformPopover.jump')}</a>
+          </div>
+          <div className="flex flex-wrap gap-4 text-xs font-mono mb-1">
+            <span>{t('trading.platformPopover.price')}: <span className="text-cyber-green font-bold">${platform.sellPrice}</span></span>
+            <span>{t('trading.platformPopover.sellCount')}: <span className="text-cyber-blue">{platform.sellCount}</span></span>
+            <span>{t('trading.platformPopover.updateTime')}: <span className="text-cyber-pink">{timeAgo(Number(platform.updateTime), t)}</span></span>
+          </div>
+          <TrendLine trendList={platform.trendList} />
+        </div>
+      ))}
+    </div>
+  )
+}
 
 // Animated progress bar component
 const AnimatedProgressBar = () => {
@@ -30,13 +104,13 @@ const AnimatedProgressBar = () => {
     let currentStep = 0
     const timer = setInterval(() => {
       currentStep++
-      
+
       // Ease-out animation: fast at start, slow at end
       const easeOut = 1 - Math.pow(1 - currentStep / steps, 3)
       const newProgress = Math.floor(easeOut * steps)
-      
+
       setProgress(newProgress)
-      
+
       if (currentStep >= steps) {
         clearInterval(timer)
       }
@@ -220,8 +294,8 @@ export default function TradingList() {
         <div className="text-center">
           <div className="relative mb-8">
             <div className="w-32 h-32 border-4 border-cyber-blue/30 rounded-full animate-spin">
-              <div 
-                className="absolute top-2 left-2 w-28 h-28 border-4 border-cyber-pink/50 rounded-full animate-spin" 
+              <div
+                className="absolute top-2 left-2 w-28 h-28 border-4 border-cyber-pink/50 rounded-full animate-spin"
                 style={{ animationDirection: 'reverse' }}
               />
               <div className="absolute top-4 left-4 w-24 h-24 border-4 border-cyber-green/70 rounded-full animate-spin" />
@@ -259,13 +333,13 @@ export default function TradingList() {
           {t('trading.subtitle')}
         </div>
         <div className="flex justify-center gap-4 mb-8">
-          <Button 
+          <Button
             className="cyber-button border-cyber-green text-cyber-green font-mono"
             variant="bordered"
           >
             ◊ {t('trading.refresh')}
           </Button>
-          <Button 
+          <Button
             className="cyber-button border-cyber-pink text-cyber-pink font-mono"
             variant="bordered"
           >
@@ -281,7 +355,7 @@ export default function TradingList() {
       >
         <Card className="bg-black/80 border border-cyber-blue/30 backdrop-blur-cyber shadow-cyber overflow-hidden">
           <div className="absolute inset-0 holographic opacity-10" />
-          
+
           <div className="bg-cyber-gray/20 border-b border-cyber-blue/30 p-4">
             <div className="flex items-center justify-between">
               <div className="font-orbitron text-cyber-blue font-bold">
@@ -304,7 +378,7 @@ export default function TradingList() {
                   <div className="text-center">{t('trading.headers.recommendation')}</div>
                   <div className="text-center">{t('trading.headers.expectedIncome')}</div>
                 </div>
-                
+
                 <AnimatePresence>
                   {data.map((item, index) => (
                     <motion.div
@@ -313,9 +387,8 @@ export default function TradingList() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 50 }}
                       transition={{ delay: index * 0.1, duration: 0.5 }}
-                      className={`grid grid-cols-6 gap-4 p-4 border-b border-cyber-blue/10 cursor-pointer transition-all duration-300 hover:bg-cyber-blue/5 ${
-                        selectedRow === item.id ? 'bg-cyber-blue/10 border-l-4 border-cyber-blue' : ''
-                      }`}
+                      className={`grid grid-cols-6 gap-4 p-4 border-b border-cyber-blue/10 cursor-pointer transition-all duration-300 hover:bg-cyber-blue/5 ${selectedRow === item.id ? 'bg-cyber-blue/10 border-l-4 border-cyber-blue' : ''
+                        }`}
                       onClick={() => setSelectedRow(selectedRow === item.id ? null : item.id)}
                       whileHover={{ scale: 1.01 }}
                     >
@@ -324,15 +397,15 @@ export default function TradingList() {
                           {String(index + 1).padStart(2, '0')}
                         </span>
                       </div>
-                      
+
                       <div className="text-left">
                         <span className="font-exo2 text-white font-medium text-sm">
                           {item.marketHashName}
                         </span>
                       </div>
-                      
+
                       <div className="text-center">
-                        <Tooltip 
+                        <Tooltip
                           content={<PlatformPrices platforms={item.platforms} />}
                           placement="top"
                           className="bg-transparent shadow-none"
@@ -350,26 +423,33 @@ export default function TradingList() {
                           </motion.div>
                         </Tooltip>
                       </div>
-                      
+
                       <div className="text-center">
                         <span className="font-mono text-cyber-green font-bold">
                           {item.expectedSales}
                         </span>
                       </div>
-                      
+
                       <div className="text-center">
                         <span className="font-mono text-cyber-pink font-bold">
                           {item.recommendation}
                         </span>
                       </div>
-                      
+
                       <div className="text-center">
-                        <motion.div
-                          whileHover={{ scale: 1.2 }}
-                          className="font-orbitron font-black text-cyber-green text-lg neon-green"
+                        <Tooltip
+                          content={<PlatformPopover itemID={item.itemID} />}
+                          placement="top"
+                          className="bg-black/90 shadow-cyber"
+                          offset={8}
                         >
-                          ${(item.maxDiff * item.recommendation).toLocaleString()}
-                        </motion.div>
+                          <motion.div
+                            whileHover={{ scale: 1.2 }}
+                            className="font-orbitron font-black text-cyber-green text-lg neon-green cursor-pointer"
+                          >
+                            ${(item.maxDiff * item.recommendation).toLocaleString()}
+                          </motion.div>
+                        </Tooltip>
                       </div>
                     </motion.div>
                   ))}
@@ -394,7 +474,7 @@ export default function TradingList() {
             <div className="font-mono text-cyber-blue text-sm">{t('trading.stats.opportunities')}</div>
           </CardBody>
         </Card>
-        
+
         <Card className="bg-black/60 border border-cyber-pink/30 backdrop-blur-cyber">
           <CardBody className="text-center p-6">
             <div className="text-3xl font-orbitron font-bold text-cyber-pink neon-pink mb-2">
@@ -403,7 +483,7 @@ export default function TradingList() {
             <div className="font-mono text-cyber-pink text-sm">{t('trading.stats.profit')}</div>
           </CardBody>
         </Card>
-        
+
         <Card className="bg-black/60 border border-cyber-green/30 backdrop-blur-cyber">
           <CardBody className="text-center p-6">
             <div className="text-3xl font-orbitron font-bold text-cyber-green neon-green mb-2">

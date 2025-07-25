@@ -60,6 +60,16 @@ export const translations = {
             buff: "BUFF163",
             csmoney: "CSMONEY",
             skinport: "SKINPORT",
+            platformPopover: {
+                jump: "Jump",
+                price: "Price",
+                sellCount: "On Sale",
+                updateTime: "Updated",
+                secondsAgo: "s ago",
+                minutesAgo: "min ago",
+                hoursAgo: "h ago",
+                daysAgo: "d ago"
+            },
             stats: {
                 opportunities: "ACTIVE OPPORTUNITIES",
                 profit: "TOTAL PROFIT POTENTIAL",
@@ -142,6 +152,16 @@ export const translations = {
             buff: "BUFF163",
             csmoney: "CSMONEY",
             skinport: "SKINPORT",
+            platformPopover: {
+                jump: "跳转",
+                price: "价格",
+                sellCount: "在售",
+                updateTime: "更新时间",
+                secondsAgo: "秒前",
+                minutesAgo: "分钟前",
+                hoursAgo: "小时前",
+                daysAgo: "天前"
+            },
             stats: {
                 opportunities: "活跃机会",
                 profit: "总利润潜力",
