@@ -7,32 +7,58 @@ import { useI18n } from '../i18n/provider'
 
 // Matrix rain effect component
 const MatrixRain = () => {
-  const [drops, setDrops] = useState<Array<{id: number, x: number, delay: number}>>([])
+  const [columns, setColumns] = useState<Array<{
+    id: number,
+    x: number,
+    chars: string[],
+    delay: number,
+    speed: number
+  }>>([])
   
   useEffect(() => {
-    const newDrops = Array.from({length: 20}, (_, i) => ({
+    const generateRandomChars = (length: number) => {
+      const chars = '0123456789$'
+      return Array.from({ length }, () => 
+        chars[Math.floor(Math.random() * chars.length)]
+      )
+    }
+
+    const numberOfColumns = Math.floor(window.innerWidth / 20)
+    const newColumns = Array.from({ length: numberOfColumns }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 2
+      x: (i / numberOfColumns) * 100,
+      chars: generateRandomChars(15), // 增加字符数量
+      delay: Math.random() * 3,
+      speed: 1 + Math.random()
     }))
-    setDrops(newDrops)
+    setColumns(newColumns)
+
+    const interval = setInterval(() => {
+      setColumns(prev => prev.map(column => ({
+        ...column,
+        chars: generateRandomChars(15)
+      })))
+    }, 2000)
+
+    return () => clearInterval(interval)
   }, [])
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {drops.map(drop => (
+      {columns.map(column => (
         <div
-          key={drop.id}
-          className="absolute text-cyber-green font-mono text-xs opacity-30"
+          key={column.id}
+          className="matrix-rain absolute text-cyber-green font-mono text-xs opacity-30"
           style={{
-            left: `${drop.x}%`,
-            animationDelay: `${drop.delay}s`,
-            animation: 'matrix-rain 3s linear infinite'
+            left: `${column.x}%`,
+            top: '-100px', // 确保从屏幕上方开始
+            animationDelay: `${column.delay}s`,
+            animationDuration: `${3 / column.speed}s`,
           }}
         >
-          {Array.from({length: 10}, (_, i) => (
+          {column.chars.map((char, i) => (
             <div key={i} className="mb-2">
-              {Math.random() > 0.5 ? '1' : '0'}
+              {char}
             </div>
           ))}
         </div>
