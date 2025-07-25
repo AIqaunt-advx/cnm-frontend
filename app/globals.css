@@ -185,48 +185,45 @@ body {
 /* Neon glow effects with theme support */
 .neon-blue {
   text-shadow: 
-    0 0 5px var(--cyber-blue), 
-    0 0 10px var(--cyber-blue), 
-    0 0 15px var(--cyber-blue), 
-    0 0 20px var(--cyber-blue);
+    0 0 2px var(--cyber-blue), 
+    0 0 4px var(--cyber-blue), 
+    0 0 8px var(--cyber-blue);
   transition: text-shadow 0.5s ease;
 }
 
 .neon-pink {
   text-shadow: 
-    0 0 5px var(--cyber-pink), 
-    0 0 10px var(--cyber-pink), 
-    0 0 15px var(--cyber-pink), 
-    0 0 20px var(--cyber-pink);
+    0 0 2px var(--cyber-pink), 
+    0 0 4px var(--cyber-pink), 
+    0 0 8px var(--cyber-pink);
   transition: text-shadow 0.5s ease;
 }
 
 .neon-green {
   text-shadow: 
-    0 0 5px var(--cyber-green), 
-    0 0 10px var(--cyber-green), 
-    0 0 15px var(--cyber-green), 
-    0 0 20px var(--cyber-green);
+    0 0 2px var(--cyber-green), 
+    0 0 4px var(--cyber-green), 
+    0 0 8px var(--cyber-green);
   transition: text-shadow 0.5s ease;
 }
 
 /* Light theme: reduce glow intensity */
 .light .neon-blue {
   text-shadow: 
-    0 0 2px var(--cyber-blue), 
-    0 0 4px var(--cyber-blue);
+    0 0 1px var(--cyber-blue), 
+    0 0 2px var(--cyber-blue);
 }
 
 .light .neon-pink {
   text-shadow: 
-    0 0 2px var(--cyber-pink), 
-    0 0 4px var(--cyber-pink);
+    0 0 1px var(--cyber-pink), 
+    0 0 2px var(--cyber-pink);
 }
 
 .light .neon-green {
   text-shadow: 
-    0 0 2px var(--cyber-green), 
-    0 0 4px var(--cyber-green);
+    0 0 1px var(--cyber-green), 
+    0 0 2px var(--cyber-green);
 }
 
 /* Cyber grid background with theme support */
