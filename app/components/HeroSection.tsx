@@ -296,7 +296,7 @@ export default function HeroSection({ onNavigateToTrading }: HeroSectionProps) {
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
               <span className="ml-4 font-mono text-cyber-green text-sm">cnm-csgo://trading-terminal</span>
             </div>
-            <div className="p-6 font-mono text-sm">
+            <div className="p-6 font-mono text-sm text-left">
               <TerminalBlock 
                 lines={[
                   "$ ./cnm-csgo --initialize --mode=trading",
