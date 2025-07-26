@@ -66,9 +66,11 @@ const PlatformPopover: React.FC<{ itemID: number }> = ({ itemID }) => {
       onTouchStart={fetchData}
     >
       {loading && <div className="text-cyber-blue text-center">{t('common.loading')}</div>}
-      {!loading && data.length === 0 && <div className="text-cyber-pink text-center">{t('common.noData')}</div>}
-      {!loading && data.map(platform => (
-        <div key={platform.platform} className="mb-3 last:mb-0 border-b border-cyber-blue/10 pb-2 last:border-b-0">
+      {!loading && data.length === 0 && <div className="text-cyber-pink text-center">{t('trading.platformPopover.click')}</div>}
+      {!loading &&
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {data.map(platform => (
+            <div key={platform.platform} className="mb-3 last:mb-0 border-b border-cyber-blue/10 pb-2 last:border-b-0">
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-bold text-cyber-blue">{platform.platformName}</span>
                 <a href={platform.link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyber-green underline">{t('trading.platformPopover.jump')}</a>
