@@ -55,17 +55,15 @@ export default function Navigation() {
       <div className="absolute inset-0 holographic opacity-20" />
       <div className="relative z-10 container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/">
-            <motion.div
-              className={`font-orbitron font-black text-2xl cursor-pointer ${glitchActive ? 'glitch' : ''}`}
+            {/* Logo */}
+            <Link href="/">
+            <motion.img
+              src="https://s2.loli.net/2025/07/27/bCo7AGctgzL2TUd.png"
+              alt="CNM CSGO Logo"
+              className={`h-10 w-auto cursor-pointer ${glitchActive ? 'glitch' : ''}`}
               whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-cyber-blue neon-blue">CNM</span>
-              <span className="text-cyber-pink neon-pink mx-2">◊</span>
-              <span className="text-cyber-green neon-green">CSGO</span>
-            </motion.div>
-          </Link>
+            />
+            </Link>
 
           {/* Navigation buttons */}
           <div className="flex items-center gap-4">
