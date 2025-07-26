@@ -61,6 +61,7 @@ export const translations = {
             csmoney: "CSMONEY",
             skinport: "SKINPORT",
             platformPopover: {
+                click: "Click to view trading platform",
                 jump: "Jump",
                 price: "Price",
                 sellCount: "On Sale",
@@ -153,6 +154,7 @@ export const translations = {
             csmoney: "CSMONEY",
             skinport: "SKINPORT",
             platformPopover: {
+                click: "点此查看交易平台",
                 jump: "跳转",
                 price: "价格",
                 sellCount: "在售",

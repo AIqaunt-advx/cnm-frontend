@@ -69,18 +69,20 @@ const PlatformPopover: React.FC<{ itemID: number }> = ({ itemID }) => {
       {!loading && data.length === 0 && <div className="text-cyber-pink text-center">{t('common.noData')}</div>}
       {!loading && data.map(platform => (
         <div key={platform.platform} className="mb-3 last:mb-0 border-b border-cyber-blue/10 pb-2 last:border-b-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-bold text-cyber-blue">{platform.platformName}</span>
-            <a href={platform.link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyber-green underline">{t('trading.platformPopover.jump')}</a>
-          </div>
-          <div className="flex flex-wrap gap-4 text-xs font-mono mb-1">
-            <span>{t('trading.platformPopover.price')}: <span className="text-cyber-green font-bold">${platform.sellPrice}</span></span>
-            <span>{t('trading.platformPopover.sellCount')}: <span className="text-cyber-blue">{platform.sellCount}</span></span>
-            <span>{t('trading.platformPopover.updateTime')}: <span className="text-cyber-pink">{timeAgo(Number(platform.updateTime), t)}</span></span>
-          </div>
-          <TrendLine trendList={platform.trendList} />
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-bold text-cyber-blue">{platform.platformName}</span>
+                <a href={platform.link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyber-green underline">{t('trading.platformPopover.jump')}</a>
+              </div>
+              <div className="flex flex-wrap gap-4 text-xs font-mono mb-1">
+                <span>{t('trading.platformPopover.price')}: <span className="text-cyber-green font-bold">${platform.sellPrice}</span></span>
+                <span>{t('trading.platformPopover.sellCount')}: <span className="text-cyber-blue">{platform.sellCount}</span></span>
+                <span>{t('trading.platformPopover.updateTime')}: <span className="text-cyber-pink">{timeAgo(Number(platform.updateTime), t)}</span></span>
+              </div>
+              <TrendLine trendList={platform.trendList} />
+            </div>
+          ))}
         </div>
-      ))}
+      }
     </div>
   )
 }
@@ -381,77 +383,78 @@ export default function TradingList() {
 
                 <AnimatePresence>
                   {data.map((item, index) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 50 }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                      className={`grid grid-cols-6 gap-4 p-4 border-b border-cyber-blue/10 cursor-pointer transition-all duration-300 hover:bg-cyber-blue/5 ${selectedRow === item.id ? 'bg-cyber-blue/10 border-l-4 border-cyber-blue' : ''
-                        }`}
-                      onClick={() => setSelectedRow(selectedRow === item.id ? null : item.id)}
-                      whileHover={{ scale: 1.01 }}
-                    >
-                      <div className="text-center">
-                        <span className="font-mono text-cyber-green font-bold">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                      </div>
+                    <React.Fragment key={item.id}>
+                      <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 50 }}
+                        transition={{ delay: index * 0.1, duration: 0.5 }}
+                        className={`grid grid-cols-6 gap-4 p-4 border-b border-cyber-blue/10 cursor-pointer transition-all duration-300 hover:bg-cyber-blue/5 ${selectedRow === item.id ? 'bg-cyber-blue/10 border-l-4 border-cyber-blue' : ''
+                          }`}
+                        onClick={() => setSelectedRow(selectedRow === item.id ? null : item.id)}
+                        whileHover={{ scale: 1.01 }}
+                      >
+                        <div className="text-center">
+                          <span className="font-mono text-cyber-green font-bold">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                        </div>
 
-                      <div className="text-left">
-                        <span className="font-exo2 text-white font-medium text-sm">
-                          {item.marketHashName}
-                        </span>
-                      </div>
+                        <div className="text-left">
+                          <span className="font-exo2 text-white font-medium text-sm">
+                            {item.marketHashName}
+                          </span>
+                        </div>
 
-                      <div className="text-center">
-                        <Tooltip
-                          content={<PlatformPrices platforms={item.platforms} />}
-                          placement="top"
-                          className="bg-transparent shadow-none"
-                        >
-                          <motion.div
-                            whileHover={{ scale: 1.1, rotate: 2 }}
-                            className="inline-block"
+                        <div className="text-center">
+                          <Tooltip
+                            content={<PlatformPrices platforms={item.platforms} />}
+                            placement="top"
+                            className="bg-transparent shadow-none"
                           >
-                            <Chip
-                              className="bg-cyber-blue/20 border border-cyber-blue text-cyber-blue font-mono font-bold cursor-pointer hover:bg-cyber-blue/30 transition-all text-xs"
-                              variant="bordered"
+                            <motion.div
+                              whileHover={{ scale: 1.1, rotate: 2 }}
+                              className="inline-block"
                             >
-                              ${item.maxDiff}
-                            </Chip>
-                          </motion.div>
-                        </Tooltip>
-                      </div>
+                              <Chip
+                                className="bg-cyber-blue/20 border border-cyber-blue text-cyber-blue font-mono font-bold cursor-pointer hover:bg-cyber-blue/30 transition-all text-xs"
+                                variant="bordered"
+                              >
+                                ${item.maxDiff}
+                              </Chip>
+                            </motion.div>
+                          </Tooltip>
+                        </div>
 
-                      <div className="text-center">
-                        <span className="font-mono text-cyber-green font-bold">
-                          {item.expectedSales}
-                        </span>
-                      </div>
+                        <div className="text-center">
+                          <span className="font-mono text-cyber-green font-bold">
+                            {item.expectedSales}
+                          </span>
+                        </div>
 
-                      <div className="text-center">
-                        <span className="font-mono text-cyber-pink font-bold">
-                          {item.recommendation}
-                        </span>
-                      </div>
+                        <div className="text-center">
+                          <span className="font-mono text-cyber-pink font-bold">
+                            {item.recommendation}
+                          </span>
+                        </div>
 
-                      <div className="text-center">
-                        <Tooltip
-                          content={<PlatformPopover itemID={item.itemID} />}
-                          placement="top"
-                          className="bg-black/90 shadow-cyber"
-                          offset={8}
-                        >
+                        <div className="text-center">
+                          {/* 移除 Tooltip，直接显示 expectedIncome */}
                           <motion.div
                             whileHover={{ scale: 1.2 }}
                             className="font-orbitron font-black text-cyber-green text-lg neon-green cursor-pointer"
                           >
                             ${(item.maxDiff * item.recommendation).toLocaleString()}
                           </motion.div>
-                        </Tooltip>
-                      </div>
-                    </motion.div>
+                        </div>
+                      </motion.div>
+                      {/* 点击行后显示 PlatformPopover */}
+                      {selectedRow === item.id && (
+                        <div className="col-span-6 px-4 pb-4">
+                          <PlatformPopover itemID={item.itemID} />
+                        </div>
+                      )}
+                    </React.Fragment>
                   ))}
                 </AnimatePresence>
               </div>
