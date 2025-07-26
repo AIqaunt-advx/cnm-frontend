@@ -76,7 +76,12 @@ const PlatformPopover: React.FC<{ itemID: number }> = ({ itemID }) => {
                 <a href={platform.link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyber-green underline">{t('trading.platformPopover.jump')}</a>
               </div>
               <div className="flex flex-wrap gap-4 text-xs font-mono mb-1">
-                <span>{t('trading.platformPopover.price')}: <span className="text-cyber-green font-bold">${platform.sellPrice}</span></span>
+                <span>
+                  {t('trading.platformPopover.price')}: 
+                  <span className={platform.sellCount === 0 ? "text-cyber-pink font-bold" : "text-cyber-green font-bold"}>
+                    ${platform.sellPrice}
+                  </span>
+                </span>
                 <span>{t('trading.platformPopover.sellCount')}: <span className="text-cyber-blue">{platform.sellCount}</span></span>
                 <span>{t('trading.platformPopover.updateTime')}: <span className="text-cyber-pink">{timeAgo(Number(platform.updateTime), t)}</span></span>
               </div>
