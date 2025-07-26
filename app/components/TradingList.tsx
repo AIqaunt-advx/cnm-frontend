@@ -164,7 +164,7 @@ const mockData: TradingItem[] = [
     itemID: 22779,
     marketHashName: "★ Butterfly Knife",
     maxDiff: 1000,
-    expectedSales: 533,
+    expectedSales: 5,
     recommendation: 3,
     expectedIncome: 3000, // 1000 * 3
     platforms: {
