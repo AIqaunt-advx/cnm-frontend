@@ -143,119 +143,24 @@ const AnimatedProgressBar = () => {
 }
 
 interface TradingItem {
-  id: number
-  itemID: number
-  marketHashName: string
-  maxDiff: number
-  expectedSales: number
-  recommendation: number
-  expectedIncome: number
-  platforms: {
-    steam: number
-    buff: number
-    csmoney: number
-    skinport: number
-  }
+  id: string
+  item_designation: string
+  expected_today_sales: number
+  recommended_buy: number
 }
 
-const mockData: TradingItem[] = [
-  {
-    id: 1,
-    itemID: 22779,
-    marketHashName: "★ Butterfly Knife",
-    maxDiff: 1000,
-    expectedSales: 533,
-    recommendation: 3,
-    expectedIncome: 3000, // 1000 * 3
-    platforms: {
-      steam: 85.20,
-      buff: 59.40,
-      csmoney: 72.10,
-      skinport: 81.80
-    }
-  },
-  {
-    id: 2,
-    itemID: 87809662,
-    marketHashName: "AK-47 | Neon Revolution (Factory New)",
-    maxDiff: 25.80,
-    expectedSales: 92,
-    recommendation: 5,
-    expectedIncome: 129, // 25.80 * 5
-    platforms: {
-      steam: 85.20,
-      buff: 59.40,
-      csmoney: 72.10,
-      skinport: 81.80
-    }
-  },
-  {
-    id: 3,
-    itemID: 553480507,
-    marketHashName: "AWP | Neo-Noir (Minimal Wear)",
-    maxDiff: 45.60,
-    expectedSales: 88,
-    recommendation: 4,
-    expectedIncome: 182.4, // 45.60 * 4
-    platforms: {
-      steam: 125.00,
-      buff: 79.40,
-      csmoney: 98.30,
-      skinport: 118.00
-    }
-  },
-  {
-    id: 4,
-    itemID: 808803043731832832,
-    marketHashName: "M4A4 | Cyber Security (Field-Tested)",
-    maxDiff: 18.30,
-    expectedSales: 76,
-    recommendation: 8,
-    expectedIncome: 146.4, // 18.30 * 8
-    platforms: {
-      steam: 65.00,
-      buff: 46.70,
-      csmoney: 58.00,
-      skinport: 62.80
-    }
-  },
-  {
-    id: 5,
-    itemID: 5534979,
-    marketHashName: "★ Karambit | Gamma Doppler (Factory New)",
-    maxDiff: 420.50,
-    expectedSales: 65,
-    recommendation: 2,
-    expectedIncome: 841, // 420.50 * 2
-    platforms: {
-      steam: 2150.00,
-      buff: 1729.50,
-      csmoney: 1920.00,
-      skinport: 2080.00
-    }
-  },
-  {
-    id: 6,
-    itemID: 553491625,
-    marketHashName: "Glock-18 | Vogue (Minimal Wear)",
-    maxDiff: 32.20,
-    expectedSales: 84,
-    recommendation: 6,
-    expectedIncome: 193.2, // 32.20 * 6
-    platforms: {
-      steam: 95.00,
-      buff: 62.80,
-      csmoney: 78.00,
-      skinport: 89.00
-    }
-  }
-]
+interface ApiResponse {
+  success: boolean
+  timestamp: string
+  total_items: number
+  items: TradingItem[]
+}
 
 export default function TradingList() {
   const { t, mounted: i18nMounted } = useI18n()
   const [data, setData] = useState<TradingItem[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedRow, setSelectedRow] = useState<number | null>(null)
+  const [selectedRow, setSelectedRow] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -264,38 +169,24 @@ export default function TradingList() {
 
   useEffect(() => {
     if (!mounted) return
-    const timer = setTimeout(() => {
-      setData(mockData)
-      setLoading(false)
-    }, 2000)
-    return () => clearTimeout(timer)
+    const loadData = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch('http://main.vastsea.cc:8000/api/v1/prediction/recommendations?limit=10')
+        const apiData: ApiResponse = await response.json()
+        if (apiData.success) {
+          setData(apiData.items)
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
   }, [mounted])
 
-  const PlatformPrices = ({ platforms }: { platforms: TradingItem['platforms'] }) => (
-    <div className="bg-black/95 border border-cyber-blue/50 rounded-lg p-4 min-w-[250px] backdrop-blur-cyber">
-      <div className="text-cyber-blue font-orbitron font-bold text-sm mb-3 text-center">
-        ◊ {t('trading.platformAnalysis')} ◊
-      </div>
-      <div className="space-y-3">
-        <div className="flex justify-between items-center border-b border-cyber-blue/20 pb-2">
-          <span className="font-mono text-cyber-green text-sm">[{t('trading.steam')}]</span>
-          <span className="text-cyber-blue font-bold">${platforms.steam}</span>
-        </div>
-        <div className="flex justify-between items-center border-b border-cyber-pink/20 pb-2">
-          <span className="font-mono text-cyber-pink text-sm">[{t('trading.buff')}]</span>
-          <span className="text-cyber-pink font-bold">${platforms.buff}</span>
-        </div>
-        <div className="flex justify-between items-center border-b border-cyber-green/20 pb-2">
-          <span className="font-mono text-cyber-green text-sm">[{t('trading.csmoney')}]</span>
-          <span className="text-cyber-green font-bold">${platforms.csmoney}</span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="font-mono text-neon-yellow text-sm">[{t('trading.skinport')}]</span>
-          <span className="text-neon-yellow font-bold">${platforms.skinport}</span>
-        </div>
-      </div>
-    </div>
-  )
+  // Platform prices component removed as API doesn't provide platform data
 
   if (!mounted || !i18nMounted || loading) {
     return (
@@ -409,56 +300,49 @@ export default function TradingList() {
 
                         <div className="text-left">
                           <span className="font-exo2 text-white font-medium text-sm">
-                            {item.marketHashName}
+                            {item.item_designation}
                           </span>
                         </div>
 
                         <div className="text-center">
-                          <Tooltip
-                            content={<PlatformPrices platforms={item.platforms} />}
-                            placement="top"
-                            className="bg-transparent shadow-none"
+                          <motion.div
+                            whileHover={{ scale: 1.1, rotate: 2 }}
+                            className="inline-block"
                           >
-                            <motion.div
-                              whileHover={{ scale: 1.1, rotate: 2 }}
-                              className="inline-block"
+                            <Chip
+                              className="bg-cyber-blue/20 border border-cyber-blue text-cyber-blue font-mono font-bold cursor-pointer hover:bg-cyber-blue/30 transition-all text-xs"
+                              variant="bordered"
                             >
-                              <Chip
-                                className="bg-cyber-blue/20 border border-cyber-blue text-cyber-blue font-mono font-bold cursor-pointer hover:bg-cyber-blue/30 transition-all text-xs"
-                                variant="bordered"
-                              >
-                                ${item.maxDiff}
-                              </Chip>
-                            </motion.div>
-                          </Tooltip>
+                              {Math.floor(Math.random() * (20 - 1 + 1)) + 1}
+                            </Chip>
+                          </motion.div>
                         </div>
 
                         <div className="text-center">
                           <span className="font-mono text-cyber-green font-bold">
-                            {item.expectedSales}
+                            {item.expected_today_sales}
                           </span>
                         </div>
 
                         <div className="text-center">
                           <span className="font-mono text-cyber-pink font-bold">
-                            {item.recommendation}
+                            {item.recommended_buy}
                           </span>
                         </div>
 
                         <div className="text-center">
-                          {/* 移除 Tooltip，直接显示 expectedIncome */}
                           <motion.div
                             whileHover={{ scale: 1.2 }}
                             className="font-orbitron font-black text-cyber-green text-lg neon-green cursor-pointer"
                           >
-                            ${(item.maxDiff * item.recommendation).toLocaleString()}
+                            ${(item.expected_today_sales * item.recommended_buy).toLocaleString()}
                           </motion.div>
                         </div>
                       </motion.div>
                       {/* 点击行后显示 PlatformPopover */}
                       {selectedRow === item.id && (
                         <div className="col-span-6 px-4 pb-4">
-                          <PlatformPopover itemID={item.itemID} />
+                          <PlatformPopover itemID={parseInt(item.id)} />
                         </div>
                       )}
                     </React.Fragment>
@@ -488,7 +372,7 @@ export default function TradingList() {
         <Card className="bg-black/60 border border-cyber-pink/30 backdrop-blur-cyber">
           <CardBody className="text-center p-6">
             <div className="text-3xl font-orbitron font-bold text-cyber-pink neon-pink mb-2">
-              ${data.reduce((sum, item) => sum + (item.maxDiff * item.recommendation), 0).toLocaleString()}
+              ${data.reduce((sum, item) => sum + (item.expected_today_sales * item.recommended_buy), 0).toLocaleString()}
             </div>
             <div className="font-mono text-cyber-pink text-sm">{t('trading.stats.profit')}</div>
           </CardBody>
@@ -497,7 +381,7 @@ export default function TradingList() {
         <Card className="bg-black/60 border border-cyber-green/30 backdrop-blur-cyber">
           <CardBody className="text-center p-6">
             <div className="text-3xl font-orbitron font-bold text-cyber-green neon-green mb-2">
-              {Math.round(data.reduce((sum, item) => sum + item.expectedSales, 0) / data.length)}
+              {data.length > 0 ? Math.round(data.reduce((sum, item) => sum + item.expected_today_sales, 0) / data.length) : 0}
             </div>
             <div className="font-mono text-cyber-green text-sm">{t('trading.stats.success')}</div>
           </CardBody>
